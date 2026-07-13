@@ -4,7 +4,10 @@ use diagnostics;
 
 my $hero = 'Ovid';
 my $fool = $hero;
-print "$hero is absent. $fool is a fool";
+print "$hero is absent. $fool is a fool\n";
+
+$hero = 'anybody else';
+print "$hero is present.\n";
 
 my %snacks = (
     stinky => 'limburger',
