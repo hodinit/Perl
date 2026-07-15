@@ -2,7 +2,6 @@ use strict;
 use warnings;
 use diagnostics;
 
-my $answer = (8 + 6) / (4 * 2);
-print $answer;
-
-#103
+my @array = (1..100);
+@array = grep {$_ < 7} @array;
+print @array;
