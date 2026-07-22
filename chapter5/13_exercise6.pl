@@ -23,3 +23,5 @@ Intellingence:   $stat_for{intelligence}
 Dexterity:       $stat_for{dexterity}
 END_CHARACTER
 
+
+157
