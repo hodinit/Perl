@@ -9,5 +9,8 @@ my $score_for = {
     bob   => 83,
 };
 
-print "score for jim: ".$score_for->{'jim'}."\n";
-print "score for mary: ".$score_for->{'mary'};
+# print "score for jim: ".$score_for->{'jim'}."\n";
+# print "score for mary: ".$score_for->{'mary'};
+
+my ( $jim, $mary ) = @$score_for{ qw{jim mary} };
+print "$jim $mary";
