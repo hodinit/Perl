@@ -19,5 +19,3 @@ for my $number ( 0..3 ) {
         print "Could not calculate the recirpocal of $_: $error\n";
     };
 }
-
-#196
