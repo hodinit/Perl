@@ -10,13 +10,12 @@ $hero = 'anybody else';
 print "$hero is present.\n";
 
 my %snacks = (
-    stinky => 'limburger',
-    yummy => 'brie',
+    stinky   => 'limburger',
+    yummy    => 'brie',
     surprise => 'soap',
 );
 
-my @cheese_tray = keys (%snacks);
+my @cheese_tray = keys(%snacks);
 print "our cheese tray will have @cheese_tray"
 
-
-#97
+  #97

@@ -4,17 +4,17 @@ use diagnostics;
 use Try::Tiny;
 
 sub reciprocal {
-    return 1/shift;
+    return 1 / shift;
 }
 
-for my $number ( 0..3 ) {
+for my $number ( 0 .. 3 ) {
     my $reciprocal;
 
     try {
         $reciprocal = reciprocal($number);
         print "the reciprocal of $number is $reciprocal\n";
     }
-    catch{
+    catch {
         my $error = $_;
         print "Could not calculate the recirpocal of $_: $error\n";
     };

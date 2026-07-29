@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-sub reciprocal { return 1/shift };
+sub reciprocal { return 1 / shift }
 
 my $reciprocal = \&reciprocal;
 

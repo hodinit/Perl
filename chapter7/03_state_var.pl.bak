@@ -11,6 +11,6 @@ use diagnostics;
     }
 }
 
-for (0..5){
+for ( 0 .. 5 ) {
     how_many();
 }

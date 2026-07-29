@@ -6,7 +6,7 @@ my @ids = qw( AAA bbb Ccc ddD EEE );
 my @upper;
 
 for my $word (@ids) {
-    if (uc($word) eq $word) {
+    if ( uc($word) eq $word ) {
         push @upper, $word;
     }
 }
