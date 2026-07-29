@@ -14,4 +14,3 @@ my ( $first, $second ) = @hash{ 'another', 'example' };
 print "$var1, $var2\n";
 print "$first, $second\n";
 
-

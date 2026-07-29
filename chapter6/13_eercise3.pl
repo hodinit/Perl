@@ -12,5 +12,5 @@ my $score_for = {
 # print "score for jim: ".$score_for->{'jim'}."\n";
 # print "score for mary: ".$score_for->{'mary'};
 
-my ( $jim, $mary ) = @$score_for{ qw{jim mary} };
+my ( $jim, $mary ) = @$score_for{qw{jim mary}};
 print "$jim $mary";

@@ -4,7 +4,7 @@ use diagnostics;
 
 sub average {
     my $numbers = shift;
-    my ( $total, $count ) = (0, 0);
+    my ( $total, $count ) = ( 0, 0 );
     foreach my $number (@$numbers) {
         $total += $number;
         $count += 1;
@@ -13,4 +13,4 @@ sub average {
 }
 
 my @list = ( 1, 2, 10, 10, 10 );
-print average(\@list);
+print average( \@list );

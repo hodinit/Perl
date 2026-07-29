@@ -11,5 +11,5 @@ while ( $i > 0 ) {
     else {
         $i--;
     }
-    print $i."\n";
+    print $i. "\n";
 }

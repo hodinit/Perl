@@ -13,19 +13,19 @@ sub _hash_length { return scalar keys %{ $_[0] } }
 
 sub mylength {
     my $reference = shift;
-    my $length = $length_for{ ref $reference }
-        || croak "don't know how to handle $reference";
+    my $length    = $length_for{ ref $reference }
+      || croak "don't know how to handle $reference";
     return $length->($reference);
 }
 
-my $name = 'John Q. Public';
-my @things = qw( this that and the other );
+my $name    = 'John Q. Public';
+my @things  = qw( this that and the other );
 my %cheeses = (
     good => 'Havarti',
-    bad => 'Mimolette',
+    bad  => 'Mimolette',
 );
 
-print mylength( \$name ), "\n";
-print mylength( \@things ), "\n";
+print mylength( \$name ),    "\n";
+print mylength( \@things ),  "\n";
 print mylength( \%cheeses ), "\n";
-print mylength( $name ), "\n";
+print mylength($name),       "\n";

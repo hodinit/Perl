@@ -4,7 +4,7 @@ use diagnostics;
 
 sub is_palindrome {
     my $word = lc shift;
-    if ($word eq scalar reverse $word) {
+    if ( $word eq scalar reverse $word ) {
         return 1;
     }
     else {
@@ -12,7 +12,7 @@ sub is_palindrome {
     }
 }
 
-for my $word ( qw(Abba abba notabba) ) {
+for my $word (qw(Abba abba notabba)) {
     my $maybe = is_palindrome($word) ? "" : "not";
     print "$word is $maybe a palindrome\n";
 }

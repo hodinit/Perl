@@ -22,17 +22,17 @@ print "Top sales per day report\n\n";
 printf "%10s  %10s  %s\n", 'Weekday', 'Person', 'Num sales';
 
 for my $i ( 0 .. $#day_of_week ) {
-    my $day = ucfirst $day_of_week[$i];
-	my $daily_sales = $sales[$i];
+    my $day         = ucfirst $day_of_week[$i];
+    my $daily_sales = $sales[$i];
 
-	my $top_sales = 0;
-	my $top_person;
+    my $top_sales = 0;
+    my $top_person;
 
-	while ( my ( $salesperson, $num_sales ) = each %$daily_sales ) {
-		if ( $num_sales > $top_sales ) {
-			$top_sales = $num_sales;
-			$top_person = $salesperson;
-		}
-	}
-	printf "%10s:  %10s  %-3d\n", $day, $top_person, $top_sales;
+    while ( my ( $salesperson, $num_sales ) = each %$daily_sales ) {
+        if ( $num_sales > $top_sales ) {
+            $top_sales  = $num_sales;
+            $top_person = $salesperson;
+        }
+    }
+    printf "%10s:  %10s  %-3d\n", $day, $top_person, $top_sales;
 }
