@@ -1,4 +1,8 @@
-my @words = ('asta', 'este', 'ceva');
+use strict;
+use warnings;
+use diagnostics;
+
+my @words = ('asta', 'este', 'ceva'); 
 
 my $cuv1 = $words[0];
 my $cuv2 = $words[1];

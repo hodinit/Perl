@@ -4,7 +4,7 @@ use diagnostics;
 use Carp 'croak';
 use Data::Dumper;
 
-sub zip(\@\@;$);
+sub zip(\@\@;$); ## no critic (Subroutines::ProhibitSubroutinePrototypes)
 
 my @names        = qw ( alice bob charlie );
 my @tests        = qw ( 87   72 );
@@ -15,7 +15,7 @@ my %final_grades = zip @names, @final;
 #my %blows_up = zip @tests, @final;
 print Dumper( \%test_grades, \%final_grades );
 
-sub zip (\@\@;$) {
+sub zip (\@\@;$) { ## no critic (Subroutines::ProhibitSubroutinePrototypes)
     my ( $first, $second, $default ) = @_;
 
     if ( @_ < 3 and ( @$first != @$second ) ) {

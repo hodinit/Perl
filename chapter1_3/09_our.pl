@@ -1,4 +1,4 @@
-package MyCompany::Stuff;
+package MyCompany::Stuff; ## no critic (Modules::RequireFilenameMatchesPackage)
 
 use strict;
 use warnings;

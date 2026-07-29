@@ -1,3 +1,7 @@
+use strict;
+use warnings;
+use diagnostics;
+
 my %people = (
     'alice',    1,
     'bob',      2,
