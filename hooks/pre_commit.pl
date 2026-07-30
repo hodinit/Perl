@@ -29,7 +29,7 @@ PRE_COMMIT {
         exit 1;
     }
 
-    system( 'perltidy', '-b', '-bext=/', @files_changed );
+    system( 'perltidy', '-b', @files_changed );
 
     if ( $? != 0 ) {
         say "❌ perltidy failed. Commit aborted.";
