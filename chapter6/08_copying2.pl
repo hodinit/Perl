@@ -17,5 +17,4 @@ while ( my ( $day, $sales ) = each %new_sales ) {
     $sales->{mary} = 0;
 }
 
-
-print Dumper(\%old_sales, \%new_sales);
+print Dumper( \%old_sales, \%new_sales );

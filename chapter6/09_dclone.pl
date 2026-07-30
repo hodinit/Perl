@@ -12,11 +12,10 @@ my %old_sales = (
     friday    => { jim => 1, mary => 2 },
 );
 
-my %new_sales = %{ dclone(\%old_sales) };
+my %new_sales = %{ dclone( \%old_sales ) };
 while ( my ( $day, $sales ) = each %new_sales ) {
     $sales->{jim}  = 0;
     $sales->{mary} = 0;
 }
 
-
-print Dumper(\%old_sales, \%new_sales);
+print Dumper( \%old_sales, \%new_sales );
