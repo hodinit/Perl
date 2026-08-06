@@ -14,11 +14,6 @@ before 2012-12-12 because our idiot CEO thinks the world
 will end.
 END
 
-my %months = (
-    '2011-02-03' => '02 February 2011',
-    '2012-12-12' => '12 December 2012'
-);
-
 $text =~ s/
 (\d{4}-\d{2}-\d{2})     # capture date
 (?=\.|\s)               # use the anchor
