@@ -20,9 +20,9 @@ my %months = (
 );
 
 $text =~ s/
-(\d{4}-\d{2}-\d{2}) # capture date
-(?=\.|\s) # use the anchor
-/format_date($1) # with the e flag u can excute code in the regex
+(\d{4}-\d{2}-\d{2})     # capture date
+(?=\.|\s)               # use the anchor
+/format_date($1)        # with the e flag u can excute code in the regex
 /gexi;
 
 say $text;
