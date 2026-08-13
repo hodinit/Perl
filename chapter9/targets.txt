@@ -1,0 +1,6 @@
+Agent 99|99|Spy with unknown name
+James|007|Spy
+Maxwell Smart|86|Definetly a spy
+Napoleon Solo|11|Uncle spy
+Number 6|6|Ex-spy
+Unknown|666|Maybe a spy
