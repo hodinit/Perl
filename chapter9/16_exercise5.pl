@@ -4,9 +4,8 @@ use utf8;
 use Encode qw(decode encode);
 
 my @word;
-my $count = @ARGV;
-foreach my $i ( 0 .. $count - 1 ) {
-    my $number    = $ARGV[$i];
+while (@ARGV) {
+    my $number    = shift @ARGV;
     my $character = chr($number);
     push( @word, $character );
 }

@@ -3,15 +3,22 @@ use warnings;
 use diagnostics;
 use autodie;
 
-my $number = @ARGV;
-foreach my $i ( 0 .. $number - 1 ) {
-    my $file = $ARGV[$i];
+while (@ARGV) {
+    my $file = shift @ARGV;
+
     open my $opened_file, '<', $file;
-    my @lines = grep { !/^\s*#/ && !/^\s*$/ } <$opened_file>;
-    print @lines;
+    my @lines;
+    while ( my $line = <$opened_file> ) {
+        if ( $line =~ /^\s*#/ || $line =~ /^\s*$/ ) {
+            next;
+        }
+        push( @lines, $line );
+    }
     close $opened_file;
 
     open $opened_file, '>', $file;
-    print $opened_file @lines;
+    foreach my $line (@lines) {
+        print $opened_file $line;
+    }
     close $opened_file;
 }

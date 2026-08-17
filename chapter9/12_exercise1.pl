@@ -3,10 +3,18 @@ use warnings;
 use diagnostics;
 use autodie;
 
-my $number = @ARGV;
-foreach my $i ( 0 .. $number - 1 ) {
-    my $file = $ARGV[$i];
-    open my $opened_file, '<', $file;
-    print <$opened_file>, "\n";
-    close $opened_file;
+while (@ARGV) {
+    my $file = shift @ARGV;
+
+    if ( -e $file ) {
+        open my $opened_file, '<', $file;
+        while ( my $line = <$opened_file> ) {
+            print $line;
+        }
+        close $opened_file;
+    }
+    else {
+        open my $new_file, '>', $file;
+        close $new_file;
+    }
 }
