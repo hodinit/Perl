@@ -6,5 +6,5 @@ use Encode qw(decode encode);
 while (@ARGV) {
     my $number    = shift @ARGV;
     my $character = chr($number);
-    print $character;
+    print encode( 'utf-8', $character );
 }

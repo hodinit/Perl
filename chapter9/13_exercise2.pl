@@ -2,23 +2,24 @@ use strict;
 use warnings;
 use diagnostics;
 use autodie;
+use feature 'say';
 
-while (@ARGV) {
-    my $file = shift @ARGV;
+while ( my $file = shift @ARGV ) {
+    print_file($file);
+}
 
-    open my $opened_file, '<', $file;
-    my @lines;
-    while ( my $line = <$opened_file> ) {
-        if ( $line =~ /^\s*#/ || $line =~ /^\s*$/ ) {
-            next;
-        }
-        push( @lines, $line );
+sub print_file {
+    my $file = shift;
+
+    open my $fh, '<', $file;
+    while ( my $line = <$fh> ) {
+        chomp $line;
+        next if length $line == 0;
+        next if $line =~ m/^#/;
+        $line =~ s/#.*//;
+        say $line;
     }
-    close $opened_file;
+    close $fh;
 
-    open $opened_file, '>', $file;
-    foreach my $line (@lines) {
-        print $opened_file $line;
-    }
-    close $opened_file;
+    return;
 }
