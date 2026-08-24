@@ -17,11 +17,9 @@ my @new_list;
 
 foreach (@list) {
     my $element = $_;
-    @new_list = grep { $_ eq $element } @list;
+    if ( !grep { $_ eq $element } @new_list ) {
+        push( @new_list, $element );
+    }
 }
 
 print Dumper(@new_list);
-
-# my @sorted = sort { $a cmp $b } @list;
-
-# print Dumper(\@sorted);
