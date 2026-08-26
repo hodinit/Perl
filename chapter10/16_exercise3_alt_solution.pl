@@ -15,11 +15,10 @@ my @list = qw(
 
 my @new_list;
 
-foreach (@list) {
-    my $element = $_;
+foreach my $element (@list) {
     if ( !grep { $_ eq $element } @new_list ) {
         push( @new_list, $element );
     }
 }
 
-print Dumper(@new_list);
+print Dumper( \@new_list );
