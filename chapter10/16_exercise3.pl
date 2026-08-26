@@ -13,13 +13,7 @@ my @list = qw(
   Andromalius
 );
 
-my @new_list;
+my $hash     = {};
+my @new_list = grep { !$hash->{$_}++; } @list;
 
-foreach (@list) {
-    my $element = $_;
-    if ( !grep { $_ eq $element } @new_list ) {
-        push( @new_list, $element );
-    }
-}
-
-print Dumper(@new_list);
+print Dumper( \@new_list );

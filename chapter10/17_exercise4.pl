@@ -31,7 +31,7 @@ my @employees = (
 );
 
 my @names =
-  map  { $_->{first_name} . " " . $_->{last_name} }
+  map  { "$_->{first_name} $_->{last_name}" }
   sort { $a->{last_name} cmp $b->{last_name} }
   grep { $_->{years} > 1 } @employees;
 
