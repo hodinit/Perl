@@ -12,10 +12,8 @@ close $file;
 my @new_lines;
 my @array_of_statistics;
 
-
 @array_of_statistics = extract_data_for_given_state('UT');
 print @array_of_statistics;
-
 
 sub extract_data_for_given_state {
     my $state = shift;
@@ -27,7 +25,6 @@ sub extract_data_for_given_state {
         }
     }
 
-
     my @avg_for_month_all_states;
     foreach my $line (@lines) {
         chomp $line;
@@ -37,22 +34,20 @@ sub extract_data_for_given_state {
         }
     }
 
-    my $count = 0;
+    my $count     = 0;
     my $sum_top_5 = 0;
-    my $sum_all = 0;
+    my $sum_all   = 0;
 
     foreach my $element (@avg_for_month_all_states) {
-        if ( $count <5 ) {
+        if ( $count < 5 ) {
             $sum_top_5 += int $element->[2];
         }
-        $count++;    
+        $count++;
         $sum_all += int $element->[2];
 
     }
     my $var3 = int $sum_all / @avg_for_month_all_states;
-    my $var4 = int $sum_top_5/5;
-
-
+    my $var4 = int $sum_top_5 / 5;
 
     my @return_array;
     foreach my $element (@new_lines) {
