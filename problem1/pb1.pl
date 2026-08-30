@@ -37,25 +37,48 @@ sub extract_data_for_given_state {
     # print Dumper(@month_extraction);
 
     my @date_array;
-    my $sum_all;
-    my $avg_all;
+    my $sum_all   = 0;
+    my $avg_all   = 0;
+    my $count     = 0;
+    my $sum_top_5 = 0;
+    my $avg_top_5 = 0;
 
     foreach my $date ( 1 .. 12 ) {
         @date_array = grep { $_->[0] == $date } @month_extraction;
         if ( @date_array != 0 ) {
             foreach my $element (@date_array) {
+                if ( $count < 5 ) {
+                    $sum_top_5 += int $element->[1];
+                }
+                $count++;
                 $sum_all += int $element->[1];
             }
             $avg_all = int $sum_all / @date_array;
-            print Dumper(@date_array);
-            say "($avg_all)\n";
-            $sum_all = 0;
+            if ( $count < 5 ) {
+                $avg_top_5 = int $sum_top_5 / $count;
+            }
+            else {
+                $avg_top_5 = int $sum_top_5 / 5;
+            }
+
+            # print Dumper(@date_array);
+            # say "($avg_all)\n";
+            # say "($avg_top_5)\n";
+
+            $sum_all   = 0;
+            $count     = 0;
+            $sum_top_5 = 0;
         }
     }
 
-    # my $count     = 0;
-    # my $sum_top_5 = 0;
-    # my $sum_all   = 0;
+    my @return_array;
+    my $var3 = int $sum_all / @month_extraction;
+    my $var4 = int $sum_top_5 / 5;
+
+    # foreach my $element (@state_extraction) {
+    #     push @return_array, "$element->[1] $element->[2] $var3 $var4\n";
+    # }
+    return @return_array;
 
     # foreach my $element (@month_extraction) {
     #     if ( $count < 5 ) {
@@ -65,13 +88,5 @@ sub extract_data_for_given_state {
     #     $sum_all += int $element->[2];
 
     # }
-    # my $var3 = int $sum_all / @month_extraction;
-    # my $var4 = int $sum_top_5 / 5;
 
-    my @return_array;
-
-    # foreach my $element (@state_extraction) {
-    #     push @return_array, "$element->[1] $element->[2] $var3 $var4\n";
-    # }
-    return @return_array;
 }
