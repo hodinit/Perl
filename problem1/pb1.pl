@@ -4,13 +4,28 @@ use Data::Dumper;
 use DateTime;
 use feature 'say';
 
+my %month_conversion = (
+    1  => 'jan',
+    2  => 'feb',
+    3  => 'mar',
+    4  => 'apr',
+    5  => 'may',
+    6  => 'jun',
+    7  => 'jul',
+    8  => 'aug',
+    9  => 'sep',
+    10 => 'oct',
+    11 => 'nov',
+    12 => 'dec',
+);
+
+my @state_extraction;
 open my $file, '<', 'file.csv';
 my @lines = <$file>;
 close $file;
 
-my @state_extraction;
-
-extract_data_for_given_state('UT');
+my @final = extract_data_for_given_state('UT');
+print @final;
 
 sub extract_data_for_given_state {
     my $input_state = shift;
@@ -20,7 +35,6 @@ sub extract_data_for_given_state {
         push @state_extraction, [@words];
     }
 
-    # print Dumper(@state_extraction);
     my @given_state_bv;
     foreach my $state (@state_extraction) {
         if ( $state->[0] eq $input_state ) {
@@ -65,7 +79,12 @@ sub extract_data_for_given_state {
         }
     }
 
+    my @return_array;
     foreach my $element (@given_state_bv) {
-        say "[$element->[0] $element->[1] $element->[2] $element->[3]],";
+        $element->[0] = $month_conversion{ $element->[0] };
+        push @return_array,
+          "['$element->[0]' $element->[1] $element->[2] $element->[3]],\n";
     }
+
+    return @return_array;
 }
