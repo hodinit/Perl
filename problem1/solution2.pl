@@ -30,7 +30,7 @@ while ( my $line = <$fh> ) {
 }
 close $fh;
 
-print Dumper($month_key);
+print Dumper(\@data);
 
 sub _process_header {
     my $header = shift;
@@ -39,5 +39,13 @@ sub _process_header {
 }
 
 sub _process_line {
+    my $line = shift;
+    chomp $line;
+    my @element = split(',', $line);
 
+    return {
+        $state_key => $element[0],
+        $month_key => $month_conversion{ $element[1] },
+        $sales_key => $element[2], 
+    }
 }
