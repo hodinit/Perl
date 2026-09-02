@@ -30,7 +30,8 @@ while ( my $line = <$fh> ) {
 }
 close $fh;
 
-print Dumper( \@data );
+my @final = _extract_data_for_given_state('UT');
+print Dumper( \@final );
 
 sub _process_header {
     my $header = shift;
@@ -48,4 +49,15 @@ sub _process_line {
         $month_key => $month_conversion{ $element[1] },
         $sales_key => $element[2],
     };
+}
+
+sub _extract_data_for_given_state {
+    my $input_state = shift;
+    my @return_array;
+    foreach my $entry (@data) {
+        if ( $entry->{'code'} eq $input_state ) {
+            push @return_array, [ $entry->{'month'}, $entry->{'commi'} ];
+        }
+    }
+    return @return_array;
 }
