@@ -30,8 +30,15 @@ while ( my $line = <$fh> ) {
 }
 close $fh;
 
+# foreach my $element (@data) {
+#     say $element->%*;
+# }
+
+# print Dumper (@data);
+
 my @final = _extract_data_for_given_state('UT');
-print Dumper( \@final );
+
+# print Dumper( \@final );
 
 sub _process_header {
     my $header = shift;
@@ -46,7 +53,7 @@ sub _process_line {
 
     return {
         $state_key => $element[0],
-        $month_key => $month_conversion{ $element[1] },
+        $month_key => $element[1],
         $sales_key => $element[2],
     };
 }
@@ -58,6 +65,33 @@ sub _extract_data_for_given_state {
         if ( $entry->{'code'} eq $input_state ) {
             push @return_array, [ $entry->{'month'}, $entry->{'commi'} ];
         }
+    }
+
+    my @date_array;
+    my $sum_all   = 0;
+    my $avg_all   = 0;
+    my $count     = 0;
+    my $sum_top_5 = 0;
+    my $avg_top_5 = 0;
+
+    foreach my $date ( 1 .. 12 ) {
+        @date_array = sort { $b->{'commi'} <=> $a->{'commi'} }
+          grep { $_->{'month'} == $date } @data;
+
+        foreach my $element (@date_array) {
+            if ( $count < 5 ) {
+                $sum_top_5 += $element->{'commi'};
+            }
+            $count++;
+            $sum_all += $element->{'commi'};
+        }
+        print Dumper($sum_all);
+        print Dumper($sum_top_5);
+        print "\n";
+
+        $sum_all   = 0;
+        $count     = 0;
+        $sum_top_5 = 0;
     }
     return @return_array;
 }
