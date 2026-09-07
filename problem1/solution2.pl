@@ -65,7 +65,7 @@ sub _extract_data_for_given_state {
         @date_array = sort { $b->{'commi'} <=> $a->{'commi'} }
           grep { $_->{'month'} == $date } @data;
 
-        my @top_5 = @date_array[ 0 .. 4 ];
+        my @top_5     = @date_array[ 0 .. 4 ];
         my $avg_all   = _calculate_average( \@date_array );
         my $avg_top_5 = _calculate_average( \@top_5 );
 
@@ -95,7 +95,7 @@ sub _calculate_average {
     my $sum       = 0;
     my $count     = 0;
     foreach my $element ( $array_ref->@* ) {
-        if ( ref $element) {
+        if ( ref $element ) {
             $sum += $element->{'commi'};
             $count++;
         }
