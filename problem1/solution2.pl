@@ -61,44 +61,18 @@ sub _extract_data_for_given_state {
     my @return_array;
     my @date_array;
 
-    my $sum_all   = 0;
-    my $avg_all   = 0;
-    my $count     = 0;
-    my $sum_top_5 = 0;
-    my $avg_top_5 = 0;
-
     foreach my $date ( 1 .. 12 ) {
         @date_array = sort { $b->{'commi'} <=> $a->{'commi'} }
           grep { $_->{'month'} == $date } @data;
 
-        foreach my $element (@date_array) {
-            if ( $count < 5 ) {
-                $sum_top_5 += $element->{'commi'};
-            }
-            $count++;
-            $sum_all += $element->{'commi'};
-        }
-
-        if ( $count > 0 ) {
-            $avg_all = int $sum_all / @date_array;
-            if ( $count < 5 ) {
-                $avg_top_5 = int $sum_top_5 / $count;
-            }
-            else {
-                $avg_top_5 = int $sum_top_5 / 5;
-            }
-        }
+        my @top_5 = @date_array[ 0 .. 4 ];
+        my $avg_all   = _calculate_average( \@date_array );
+        my $avg_top_5 = _calculate_average( \@top_5 );
 
         $averages{$date} = {
             all   => $avg_all,
             top_5 => $avg_top_5,
         };
-
-        $sum_all   = 0;
-        $count     = 0;
-        $sum_top_5 = 0;
-        $avg_all   = 0;
-        $avg_top_5 = 0;
     }
 
     foreach my $entry (@data) {
@@ -114,4 +88,20 @@ sub _extract_data_for_given_state {
     }
 
     return @return_array;
+}
+
+sub _calculate_average {
+    my $array_ref = shift;
+    my $sum       = 0;
+    my $count     = 0;
+    foreach my $element ( $array_ref->@* ) {
+        if ( ref $element) {
+            $sum += $element->{'commi'};
+            $count++;
+        }
+    }
+    if ( $count == 0 ) {
+        return 0;
+    }
+    return int $sum / $count;
 }
