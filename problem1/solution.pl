@@ -19,8 +19,11 @@ my %month_conversion = (
     12 => 'dec',
 );
 
-my @data   = ();
-my %states = ();
+my @data           = ();
+my %states         = ();
+my $state          = 'UT';
+my @commi_by_month = ();
+my $result         = [];
 
 open my $fh, '<', 'file.csv'
   or die "can't open file";
@@ -31,8 +34,14 @@ while ( my $line = <$fh> ) {
 }
 close $fh;
 
-my @final = _extract_data_for_given_state('UT');
-print Dumper( \@final );
+foreach my $month ( sort { $a <=> $b } keys %month_conversion ) {
+    @commi_by_month = sort { $b->{'commi'} <=> $a->{'commi'} }
+      grep { $_->{'month'} == $month } @data;
+    push $result->@*,
+      bv_by_month( \@commi_by_month, $state,
+        ucfirst $month_conversion{$month} );
+}
+print Dumper($result);
 
 sub _process_header {
     my $header = shift;
@@ -55,41 +64,6 @@ sub _process_line {
     };
 }
 
-sub _extract_data_for_given_state {
-    my $input_state = shift;
-    my %averages;
-    my @return_array;
-    my @date_array;
-
-    foreach my $date ( 1 .. 12 ) {
-        @date_array = sort { $b->{'commi'} <=> $a->{'commi'} }
-          grep { $_->{'month'} == $date } @data;
-
-        my @top_5     = @date_array[ 0 .. 4 ];
-        my $avg_all   = _calculate_average( \@date_array );
-        my $avg_top_5 = _calculate_average( \@top_5 );
-
-        $averages{$date} = {
-            all   => $avg_all,
-            top_5 => $avg_top_5,
-        };
-    }
-
-    foreach my $entry (@data) {
-        if ( $entry->{'code'} eq $input_state ) {
-            push @return_array,
-              [
-                $month_conversion{ $entry->{'month'} },
-                $entry->{'commi'},
-                $averages{ $entry->{'month'} }->{'all'},
-                $averages{ $entry->{'month'} }->{'top_5'},
-              ];
-        }
-    }
-
-    return @return_array;
-}
-
 sub _calculate_average {
     my $array_ref = shift;
     my $sum       = 0;
@@ -104,4 +78,19 @@ sub _calculate_average {
         return 0;
     }
     return int $sum / $count;
+}
+
+sub bv_by_month {
+    my ( $date_array, $state, $month ) = @_;
+    my $commi = 0;
+    foreach my $entry ( $date_array->@* ) {
+        if ( $entry->{'code'} eq $state ) {
+            $commi += $entry->{'commi'};
+        }
+    }
+    my @top_5     = @{$date_array}[ 0 .. 4 ];
+    my $avg_all   = _calculate_average($date_array);
+    my $avg_top_5 = _calculate_average( \@top_5 );
+
+    return [ $month, $commi, $avg_all, $avg_top_5 ];
 }
