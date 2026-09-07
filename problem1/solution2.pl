@@ -19,14 +19,15 @@ my %month_conversion = (
     12 => 'dec',
 );
 
-my @data = ();
+my @data   = ();
+my %states = ();
 
 open my $fh, '<', 'file.csv'
   or die "can't open file";
 my $header = <$fh>;
 my ( $state_key, $month_key, $sales_key ) = _process_header($header);
 while ( my $line = <$fh> ) {
-    push @data, _process_line($line);
+    push @data, _process_line( $line, $state_key, $month_key, $sales_key );
 }
 close $fh;
 
@@ -40,9 +41,12 @@ sub _process_header {
 }
 
 sub _process_line {
-    my $line = shift;
+    my ( $line, $state_key, $month_key, $sales_key ) = @_;
     chomp $line;
     my @element = split( ',', $line );
+
+    my $state = $element[0];
+    $states{$state}++;
 
     return {
         $state_key => $element[0],
