@@ -19,11 +19,8 @@ my %month_conversion = (
     12 => 'dec',
 );
 
-my @data           = ();
-my %states         = ();
-my $state          = 'UT';
-my @commi_by_month = ();
-my $result         = [];
+my @data   = ();
+my %states = ();
 
 open my $fh, '<', 'file.csv'
   or die "can't open file";
@@ -34,14 +31,18 @@ while ( my $line = <$fh> ) {
 }
 close $fh;
 
-foreach my $month ( sort { $a <=> $b } keys %month_conversion ) {
-    @commi_by_month = sort { $b->{'commi'} <=> $a->{'commi'} }
-      grep { $_->{'month'} == $month } @data;
-    push $result->@*,
-      bv_by_month( \@commi_by_month, $state,
-        ucfirst $month_conversion{$month} );
+foreach my $state ( sort keys %states ) {
+    my $result         = [];
+    my @commi_by_month = ();
+    foreach my $month ( sort { $a <=> $b } keys %month_conversion ) {
+        @commi_by_month = sort { $b->{'commi'} <=> $a->{'commi'} }
+          grep { $_->{'month'} == $month } @data;
+        push $result->@*,
+          bv_by_month( \@commi_by_month, $state,
+            ucfirst $month_conversion{$month} );
+    }
+    print Dumper($result);
 }
-print Dumper($result);
 
 sub _process_header {
     my $header = shift;
