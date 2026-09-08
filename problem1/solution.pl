@@ -86,6 +86,7 @@ sub bv_by_month {
     foreach my $entry ( $date_array->@* ) {
         if ( $entry->{'code'} eq $state ) {
             $commi += $entry->{'commi'};
+            last;
         }
     }
     my @top_5     = @{$date_array}[ 0 .. 4 ];
