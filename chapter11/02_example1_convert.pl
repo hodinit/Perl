@@ -1,9 +1,7 @@
 use strict;
 use warnings;
 use diagnostics;
-
-use FindBin;
-use lib "$FindBin::Bin/Convert-Distance-Imperial/lib";
+use lib "Convert-Distance-Imperial/lib";
 use Convert::Distance::Imperial ':all';
 
 printf "there are %d yards in a mile\n"         => miles_to_yards(1);
