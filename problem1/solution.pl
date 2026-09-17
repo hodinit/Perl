@@ -4,7 +4,7 @@ use Data::Dumper;
 use DateTime;
 use feature 'say';
 use lib 'lib';
-use Process::States ":all";
+use Process::States qw / process_header process_line bv_by_month /;
 
 my %month_conversion = (
     1  => 'jan',
@@ -27,10 +27,9 @@ my %states = ();
 open my $fh, '<', 'file.csv'
   or die "can't open file";
 my $header = <$fh>;
-my ( $state_key, $month_key, $sales_key ) = _process_header($header);
+my ( $state_key, $month_key, $sales_key ) = process_header($header);
 while ( my $line = <$fh> ) {
-    push @data,
-      _process_line( $line, $state_key, $month_key, $sales_key, \%states );
+    push @data, process_line( $line, $state_key, $month_key, $sales_key, \%states );
 }
 close $fh;
 
@@ -40,9 +39,7 @@ foreach my $state ( sort keys %states ) {
     foreach my $month ( sort { $a <=> $b } keys %month_conversion ) {
         @commi_by_month = sort { $b->{'commi'} <=> $a->{'commi'} }
           grep { $_->{'month'} == $month } @data;
-        push $result->@*,
-          bv_by_month( \@commi_by_month, $state,
-            ucfirst $month_conversion{$month} );
+        push $result->@*, bv_by_month( \@commi_by_month, $state, ucfirst $month_conversion{$month} );
     }
     print Dumper($result);
 }
