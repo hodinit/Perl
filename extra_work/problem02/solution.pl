@@ -3,7 +3,7 @@ use warnings;
 use Data::Dumper;
 use DateTime;
 use feature 'say';
-use lib 'lib';
+use lib '../../lib';
 use Process::States qw / process_header process_line bv_by_month /;
 
 my %month_conversion = (

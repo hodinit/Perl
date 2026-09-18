@@ -45,17 +45,18 @@ sub bv_by_month {
 sub _calculate_average {
     my $array_ref = shift;
     my $sum       = 0;
-    my $count     = 0;
+  
     foreach my $element ( $array_ref->@* ) {
         if ( ref $element ) {
-            $sum += $element->{'commi'};
-            $count++;
+            $sum += $element->{'commi'} // 0;
         }
     }
-    if ( $count == 0 ) {
+
+    if ( $sum == 0 ) {
         return 0;
     }
-    return int $sum / $count;
+
+    return int $sum / scalar $array_ref->@*;
 }
 
 =pod
@@ -67,32 +68,44 @@ sub _calculate_average {
 =head1 SYNOPSIS
 
     use Process::States qw / process_header process_line bv_by_month /;
-    process_header($header);
-    process_line( $line, $state_key, $month_key, $sales_key, \%states );
-    bv_by_month( \@commi_by_month, $state, ucfirst $month_conversion{$month} );
 
 =head1 DESCRIPTION
 
-    This module is used to process a csv with data for certain states.
-    The data is separated among code, month, commi.
+This module is used to process a csv with data for certain states.
+The data is separated among code, month, commi.
 
 =head1 FUNCTION
 
-=head2 process_header
+=over 4
 
-    Gets the first line of the csv and uses it for identification.
+=item * Sub process_header($header);
 
-=head2 process_line
+The C<process_header> sub returns the following keys:
 
-    Processes the csv line by line.
+    my ( $state_key, $month_key, $sales_key ) = process_header($header)
 
-=head2 bv_by_month
+=item * process_line( $line, $state_key, $month_key, $sales_key, \%states );
 
-    Processes the line in order to create the requested parameters (avg, top).
+The C<processe_line> sub returns a hashref that maps the values in a row to the cols extracted by C<process_header()>
 
-=head2 _calculate_average
+     return {
+        $state_key => $element[0],
+        $month_key => $element[1],
+        $sales_key => $element[2],
+    };
 
-    Calculates the average.
+=item * bv_by_month( \@commi_by_month, $state, ucfirst $month_conversion{$month} );
+
+The C<bv_by_month> calculates business value by state. It retuns the following values:
+
+    return [ $month, $commi, $avg_all, $avg_top_5 ];
+
+=item * Sub _calculate_average
+
+    Sub C<_calculate_average> is a helper used by C<bv_by_month> that takes an array and 
+    returns the average.
+
+=back  
 
 =head1 AUTHOR
 
