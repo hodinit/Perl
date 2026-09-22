@@ -15,3 +15,4 @@ my $episode = TV::Episode->new(
   );
 
 print $episode->as_string;
+print $episode->genre;
