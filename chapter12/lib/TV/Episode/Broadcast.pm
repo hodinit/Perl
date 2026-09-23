@@ -5,7 +5,7 @@ use warnings;
 use DateTime;
 use Try::Tiny;
 use Carp 'croak';
-use base 'TV::Episode';
+use base 'TV::Episode::Version';
 
 sub _initialize {
     my ( $self, $arg_for ) = @_;
