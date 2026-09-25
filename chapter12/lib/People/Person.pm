@@ -18,23 +18,13 @@ sub _initialize {
     my %arg_for = $arg_for->%*;
     $self->{name} = delete $arg_for{name};
     my $birthdate = delete $arg_for{birthdate};
-    try {
-        $birthdate->isa('DateTime') or die;
-    }
-    catch {
-        croak("birthdate must be a DateTime object");
-    }
     $self->{birthdate} = $birthdate;
-    $self->{age}       = age($birthdate);
+    $self->{age} = (DateTime->now - $self->{birthdate})  ->years;
 }
 
 sub name      { shift->{name} }
 sub birthdate { shift->{birthdate} }
-
-sub age {
-    my $self = shift;
-    return ( (DateTime->now()) - ($self->{birthdate}) );
-}
+sub age       { shift->{age} }
 
 sub as_string {
     my $self       = shift;
