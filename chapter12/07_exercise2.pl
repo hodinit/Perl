@@ -22,7 +22,7 @@ sub price { $_[0]->{price} }
 
 1;
 
-# Because the _initialize method works on the actual data instead of creating 
+# Because the _initialize method works on the actual data instead of creating
 # a copy like this "my %arg_for = $arg_for->%*;" when we worked with a hash.
 # Also I don t know how optimal it is to work without hashes, and also bless
-# is missing ", $class". 
+# is missing ", $class".
