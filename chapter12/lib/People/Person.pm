@@ -19,12 +19,16 @@ sub _initialize {
     $self->{name} = delete $arg_for{name};
     my $birthdate = delete $arg_for{birthdate};
     $self->{birthdate} = $birthdate;
-    $self->{age} = (DateTime->now - $self->{birthdate})  ->years;
+}
+
+sub age {
+    my $self = shift;
+    my $age  = ( DateTime->now - $self->{birthdate} )->years;
+    return $age;
 }
 
 sub name      { shift->{name} }
 sub birthdate { shift->{birthdate} }
-sub age       { shift->{age} }
 
 sub as_string {
     my $self       = shift;
