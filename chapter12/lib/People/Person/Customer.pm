@@ -1,4 +1,4 @@
-package People::Customer;
+package People::Person::Customer;
 
 use strict;
 use warnings;
@@ -9,6 +9,7 @@ sub _initialize {
     my ( $self, $arg_for ) = @_;
     my %arg_for = $arg_for->%*;
     $self->SUPER::_initialize( \%arg_for );
+    die 'user not accepted' if $self->validation eq 'no';
 }
 
 sub validation {
