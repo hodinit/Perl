@@ -2,9 +2,9 @@ use strict;
 use warnings;
 use DateTime;
 use lib 'lib';
-use People::Person;
+use Person;
 
-my $person = People::Person->new(
+my $person = Person->new(
     {
         name      => 'Marcus Aurelius',
         birthdate => DateTime->new(

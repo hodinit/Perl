@@ -2,9 +2,9 @@ use strict;
 use warnings;
 use DateTime;
 use lib 'lib';
-use People::Person::Customer;
+use Person::Customer;
 
-my $customer = People::Person::Customer->new(
+my $customer = Person::Customer->new(
     {
         name      => 'John Stewart',
         birthdate => DateTime->new(

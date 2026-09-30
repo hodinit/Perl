@@ -1,4 +1,4 @@
-package People::Person;
+package Person;
 
 use strict;
 use warnings;

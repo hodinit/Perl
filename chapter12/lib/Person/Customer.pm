@@ -1,9 +1,9 @@
-package People::Person::Customer;
+package Person::Customer;
 
 use strict;
 use warnings;
 use lib 'lib';
-use base 'People::Person';
+use base 'Person';
 
 sub _initialize {
     my ( $self, $arg_for ) = @_;
