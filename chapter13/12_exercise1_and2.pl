@@ -12,3 +12,4 @@ my $user = User->new(
 );
 
 say $user->password_eq('fobar');
+say $user->to_hash;
