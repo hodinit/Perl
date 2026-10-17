@@ -5,7 +5,24 @@ use base 'TestsFor';
 use Person;
 use DateTime;
 
-sub class_to_test { 'Person' }
+sub startup : Tests(startup) {
+    my $test = shift;
+    $test->SUPER::startup;
+    my $class = ref $test;
+    $class->mk_classdata('default_person');
+}
+
+sub setup : Tests(setup) {
+    my $test = shift;
+    $test->SUPER::setup;
+    $test->default_person(
+        $test->class_to_test->new(
+            given_name  => 'Charles',
+            family_name => 'Drew',
+            birthdate   => '1904-06-03',
+        )
+    );
+}
 
 sub constructor : Tests(3) {
     my $test  = shift;
@@ -15,15 +32,6 @@ sub constructor : Tests(3) {
     qr /Attribute.*required/,
       "Creating a $class without proper attributes should fail";
     isa_ok $test->default_person, 'Person';
-}
-
-sub default_person {
-    my $test = shift;
-    return $test->class_to_test->new(
-        given_name  => 'Charles',
-        family_name => 'Drew',
-        birthdate   => '1904-06-03',
-    );
 }
 
 sub name : Tests(2) {
