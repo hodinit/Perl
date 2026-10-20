@@ -2,6 +2,7 @@ package TestsFor::TV::Episode;
 
 use Test::Most;
 use base 'TestsFor';
+use DateTime;
 
 sub attributes : Tests(14) {
     my $test               = shift;
@@ -12,6 +13,11 @@ sub attributes : Tests(14) {
         genre          => 'awesome',
         season         => 1,
         episode_number => 7,
+        broadcast_date => DateTime->new(
+            year  => 1999,
+            month => 2,
+            day   => 3,
+        ),
     );
     my $class   = $test->class_to_test;
     my $episode = $class->new(%default_attributes);

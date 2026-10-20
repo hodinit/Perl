@@ -21,8 +21,20 @@ sub today {
 
 sub unique {
     my @array = @_;
-    my %hash  = map { $_ => 1 } @array;
-    return keys %hash;
+    my @unique_ordered;
+    foreach my $element (@array) {
+        my $exists = 0;
+        foreach my $unique_element (@unique_ordered) {
+            if ( $element == $unique_element ) {
+                $exists = 1;
+                last;
+            }
+        }
+        if ( $exists == 0 ) {
+            push @unique_ordered, $element;
+        }
+    }
+    return @unique_ordered;
 }
 
 1;
