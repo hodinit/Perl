@@ -2,10 +2,10 @@ package TestsFor::TV::Episode;
 
 use Test::Most;
 use base 'TestsFor';
-use DateTime;
 
 sub attributes : Tests(14) {
     my $test               = shift;
+    my %extra_attributes   = @_;
     my %default_attributes = (
         series         => 'Firefly',
         director       => 'Marita Grabiak',
@@ -13,12 +13,9 @@ sub attributes : Tests(14) {
         genre          => 'awesome',
         season         => 1,
         episode_number => 7,
-        broadcast_date => DateTime->new(
-            year  => 1999,
-            month => 2,
-            day   => 3,
-        ),
+        %extra_attributes,
     );
+    diag $test->class_to_test;
     my $class   = $test->class_to_test;
     my $episode = $class->new(%default_attributes);
     while ( my ( $attribute, $value ) = each %default_attributes ) {
