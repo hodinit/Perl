@@ -1,6 +1,6 @@
 package TestsFor::Customer;
 
-use Test::Most;
+use Test2::V0;
 use base 'TestsFor::Person';
 use Customer;
 use DateTime;
@@ -11,23 +11,32 @@ sub minimum_age : Tests(2) {
     my $test = shift;
     my $year = DateTime->now->year;
     $year -= 16;
-    throws_ok {
+    my $exception = dies {
         $test->class_to_test->new(
             given_name  => 'Sally',
             family_name => 'Forth',
             birthdate   => "$year-06-05",
         );
-    }
-    qr/^Customers must be 18 years old or older, not \d+/,
-      'Trying to create a customer younger than 18 should fail';
+    };
+
+    like(
+        $exception,
+        qr/^Customers must be 18 years old or older, not \d+/,
+        'Trying to create a customer younger than 18 should fail',
+    );
+
     $year -= 10;
-    lives_ok {
-        $test->class_to_test->new(
-            given_name  => 'Sally',
-            family_name => 'Forth',
-            birthdate   => "$year-06-05",
-        );
-    }
-    'Trying to create a customer older than 18 should succeed';
+
+    ok(
+        lives {
+            $test->class_to_test->new(
+                given_name  => 'Sally',
+                family_name => 'Forth',
+                birthdate   => "$year-06-05",
+            );
+        },
+        'Trying to create a customer older than 18 should succeed',
+    );
+
 }
 1;

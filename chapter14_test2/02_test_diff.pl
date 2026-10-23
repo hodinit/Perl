@@ -1,5 +1,7 @@
-use Test::More;
+use Test2::V0;
 use Test::Differences;
+
+plan 1;
 
 my %have = (
     numbers => [ 3, 4 ],
@@ -8,9 +10,9 @@ my %have = (
 );
 my %want = (
     numbers => [ 3, 4 ],
-    fields  => { this => 'tha', big => 'bad' },
-    extra   => [ 3, 5 ],
+    fields  => { this => 'that', big => 'bad' },
+    extra   => [ 3, 4 ],
 );
 
-eq_or_diff \%have, \%want, 'have and want should be the same';
+is \%have, \%want, 'have and want should be the same';
 done_testing;

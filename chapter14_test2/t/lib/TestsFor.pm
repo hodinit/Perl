@@ -1,6 +1,6 @@
 package TestsFor;
 
-use Test::Most;
+use Test2::V0;
 use base qw / Test::Class Class::Data::Inheritable /;
 INIT {
     __PACKAGE__->mk_classdata('class_to_test');

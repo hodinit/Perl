@@ -1,6 +1,6 @@
 package TestsFor::TV::Episode;
 
-use Test::Most;
+use Test2::V0;
 use base 'TestsFor';
 
 sub attributes : Tests(14) {
@@ -23,12 +23,19 @@ sub attributes : Tests(14) {
         is $episode->$attribute, $value,
           "The value for '$attribute' should be correct";
     }
+
     my %attributes = %default_attributes;
     foreach my $attribute (qw/season episode_number/) {
         $attributes{$attribute} = 0;
-        throws_ok { $class->new(%attributes) }
-        qr/\Q($attribute) does not pass the type constraint/,
-          "Setting $attribute to less than 0 should fail";
+        my $exception = dies {
+            $class->new(%attributes);
+        };
+
+        like(
+            $exception,
+            qr/\Q($attribute) does not pass the type constraint/,
+            "Setting $attribute to less than 0 should fail",
+        );
     }
 }
 

@@ -1,6 +1,6 @@
 package TestsFor::Person;
 
-use Test::Most;
+use Test2::V0;
 use base 'TestsFor';
 use Person;
 use DateTime;
@@ -28,9 +28,17 @@ sub constructor : Tests(3) {
     my $test  = shift;
     my $class = $test->class_to_test;
     can_ok $class, 'new';
-    throws_ok { $class->new }
-    qr /Attribute.*required/,
-      "Creating a $class without proper attributes should fail";
+
+    my $exception = dies {
+        $class->new
+    };
+    like(
+        $exception,
+        qr /Attribute.*required/,
+        "Creating a $class without proper attributes should fail",
+
+    );
+
     isa_ok $test->default_person, 'Person';
 }
 

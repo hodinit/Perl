@@ -2,7 +2,7 @@ package TestsFor::TV::Episode::Broadcast;
 
 use base 'TestsFor::TV::Episode';
 use DateTime;
-use Test::Most;
+use Test2::V0;
 
 sub class_to_test { 'TV::Episode::Broadcast' }
 
