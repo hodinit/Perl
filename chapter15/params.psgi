@@ -5,34 +5,49 @@ use Plack::Request;
 use Template::Tiny;
 use File::Slurp 'read_file';
 use HTML::Entities 'encode_entities';
+use Plack::Session;
+use constant SESSION_TIME => 30;
 
 builder {
+    enable 'Session';
+
     mount '/' => sub {
         my $env     = shift;
         my $request = Plack::Request->new($env);
-        my @params  = get_params_array($request);
-        my $content = get_content(
-            'templates/params.tt',
-            {
-                params      => \@params,
-                have_params => scalar @params,
-            }
+        my $session = Plack::Session->new($env);
+        if ( my $redirect = session_expired( $request, $session ) ) {
+            return $redirect;
+        }
+        my @params = get_params_array($request);
+        if ( $session->get('from_login') ) {
+            push @params => {
+                name  => 'username',
+                value => $session->get('username'),
+            };
+            $session->remove('from_login');
+        }
+        my %template_vars = (
+            params      => \@params,
+            have_params => scalar @params,
+            username    => $session->get('username'),
+            time        => time_remaining($session),
         );
+        my $content = get_content( 'templates/params.tt', \%template_vars, );
         return response( $request, $content );
     };
 
     mount '/login' => sub {
-        my $request = Plack::Request->new(shift);
+        my $env     = shift;
+        my $request = Plack::Request->new($env);
+        my $session = Plack::Session->new($env);
         my $content;
         if ( $request->param('username') && $request->param('password') ) {
-            my @params = get_params_array($request);
-            $content = get_content(
-                'templates/params.tt',
-                {
-                    params      => \@params,
-                    have_params => scalar @params,
-                }
-            );
+            $session->set( 'username',   $request->param('username') );
+            $session->set( 'time',       time );
+            $session->set( 'from_login', 1 );
+            my $response = $request->new_response;
+            $response->redirect('/');
+            return $response->finalize;
         }
         else {
             $content = get_content('templates/login.tt');
@@ -69,4 +84,20 @@ sub get_content {
     my $template = Template::Tiny->new;
     $template->process( \$template_code, $vars, \$output );
     return $output;
+}
+
+sub time_remaining {
+    my $session   = shift;
+    my $remaining = SESSION_TIME - ( time - $session->get('time') );
+    $remaining = 0 if $remaining < 0;
+    return $remaining;
+}
+
+sub session_expired {
+    my ( $request, $session ) = @_;
+    return if time_remaining($session);
+    $session->expire;
+    my $response = $request->new_response;
+    $response->redirect('/login');
+    return $response->finalize;
 }
