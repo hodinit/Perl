@@ -44,6 +44,11 @@ builder {
 sub generate_character {
     my $request        = shift;
     my %adjusments_for = (
+        education => {
+            combat      => { strength     => 2 },
+            medicine    => { health       => 2 },
+            engineering => { intelligence => 2 },
+        },
         profession => {
             programmer => {
                 strength     => -1,
@@ -66,6 +71,11 @@ sub generate_character {
 
     my @errors;
     my %label_for = (
+        education => {
+            combat      => 'Martial artist',
+            medicine    => 'Desmond Doss wannabe',
+            engineering => 'Unfortunately doomed',
+        },
         profession => {
             pilot      => 'Starship pilot',
             programmer => 'Programmer',
@@ -79,7 +89,7 @@ sub generate_character {
     );
     my %value_for = map { $_ => roll_dice() } qw/strength intelligence health/;
 
-    foreach my $attribute (qw/name profession birthplace/) {
+    foreach my $attribute (qw/name education profession birthplace/) {
         if ( my $value = $request->param($attribute) ) {
             if ( my $adj = $adjusments_for{$attribute}{$value} ) {
                 while ( my ( $stat, $adjustment ) = each $adj->%* ) {

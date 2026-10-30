@@ -19,6 +19,16 @@
           </td>
         </tr>
         <tr>
+          <td>Education</td>
+          <td>
+            <select name="education">
+              <option value="combat">Combatant</option>
+              <option value="medicine">Doctor</option>
+              <option value="engineering">Engineer</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
           <td>Profession</td>
           <td>
             <select name="profession">

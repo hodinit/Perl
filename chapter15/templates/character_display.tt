@@ -19,6 +19,10 @@
         <td>[% character.name %]</td>
       </tr>
       <tr>
+        <td>Education</td>
+        <td>[% character.education %]</td>
+      </tr>
+      <tr>
         <td>Profession</td>
         <td>[% character.profession %]</td>
       </tr>
