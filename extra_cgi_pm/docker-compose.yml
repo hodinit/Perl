@@ -6,3 +6,4 @@ services:
       - "8080:80"
     volumes:
       - ./:/usr/lib/cgi-bin
+      - ./:/var/www/html
