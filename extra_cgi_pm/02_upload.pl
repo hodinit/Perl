@@ -2,24 +2,13 @@
 use strict;
 use warnings;
 use CGI;
+use autodie;
 
-my $q         = CGI->new;
-my $saved_img = '/tmp/uploaded_image';
+my $q = CGI->new;
 
 if ( my $fh = $q->upload('file') ) {
-    open my $out, '>', $saved_img;
+    open my $out, '>', "$ENV{DOCUMENT_ROOT}/uploads/pic.jpg";
     print {$out} <$fh>;
-    close $out;
-}
-
-if ( $q->param('view') ) {
-    print $q->header('image/jpeg');
-    open my $in, '<', $saved_img or die;
-    while ( my $line = <$in> ) {
-        print $line;
-    }
-    print <$in>;
-    close $in;
 }
 
 print $q->header('text/html');
