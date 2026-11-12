@@ -9,9 +9,14 @@ use File::Slurp 'read_file';
 my $q = CGI->new;
 
 if ( my $fh = $q->upload('file') ) {
-    open my $out, '>', "$ENV{DOCUMENT_ROOT}/uploads/pic.jpg";
+    my $filename = $q->param('file');
+    $filename =~ s/.*[\/\\]//;
+    open my $out, '>', "$ENV{DOCUMENT_ROOT}/uploads/$filename";
+    binmode $out;
     print {$out} <$fh>;
+    close $out;
 }
+
 
 print $q->header('text/html');
 my $template_code = read_file('templates/upload.html');

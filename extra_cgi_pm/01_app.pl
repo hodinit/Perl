@@ -2,12 +2,15 @@
 use strict;
 use warnings;
 use CGI;
+use autodie;
+use Template::Tiny;
+use File::Slurp 'read_file';
 
 my $q = CGI->new;
 print $q->header('text/html');
-my $html_file = 'templates/index.html';
-open my $fh, '<', $html_file or die "Cannot open $html_file";
-while ( my $line = <$fh> ) {
-    print $line;
-}
-close $fh;
+my $template_code = read_file('templates/index.html');
+my $output;
+my $template = Template::Tiny->new;
+
+$template->process( \$template_code, {}, \$output );
+print $output;
