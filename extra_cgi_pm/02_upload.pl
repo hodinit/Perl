@@ -16,10 +16,13 @@ if ( my $fh = $q->upload('file') ) {
     close $out;
 }
 
-my @files  = read_dir('uploads');
-my @images = map { { url => "/uploads/$_" } } @files;
-my $vars   = {
-    images => \@images,
+my @files        = read_dir('uploads');
+my $count        = scalar @files;
+my $render_table = $count >= 3 ? 1 : 0;
+my @images       = map { { url => "/uploads/$_" } } @files;
+my $vars         = {
+    images       => \@images,
+    render_table => $render_table,
 };
 
 print $q->header('text/html');
