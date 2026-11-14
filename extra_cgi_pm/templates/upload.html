@@ -14,11 +14,32 @@
 
 
     [% IF render_table %]
-    <p>works</p>
+    <table id="myTable">
+        <thead>
+            <tr>
+                <th>Col 1</th>
+                <th>Col 2</th>
+                <th>Col 3</th>
+            </tr>
+        </thead>
+        <tbody>
+            [% FOREACH row IN rows %]
+            <tr>
+                <td>[% IF row.col1 %]<img src="[% row.col1 %]" width="200">[% END %]</td>
+                <td>[% IF row.col2 %]<img src="[% row.col2 %]" width="200">[% END %]</td>
+                <td>[% IF row.col3 %]<img src="[% row.col3 %]" width="200">[% END %]</td>
+            </tr>
+            [% END %]
+        </tbody>
+    </table>
+
+    <script>
+        new DataTable('#myTable');
+    </script>
     [% ELSE %]
-        [% FOREACH img IN images %]
-        <img src="[% img.url %]" style="max-width: 200px; margin: 10px;" />
-        [% END %]
+    [% FOREACH img IN images %]
+    <img src="[% img.url %]" style="max-width: 200px; margin: 10px;" />
+    [% END %]
     [% END %]
 
 </body>

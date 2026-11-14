@@ -20,9 +20,18 @@ my @files        = read_dir('uploads');
 my $count        = scalar @files;
 my $render_table = $count >= 3 ? 1 : 0;
 my @images       = map { { url => "/uploads/$_" } } @files;
-my $vars         = {
+my @rows;
+while ( my @chunk = splice( @files, 0, 3 ) ) {
+    push @rows, {
+        col1 => $chunk[0] ? "/uploads/$chunk[0]" : '',
+        col2 => $chunk[1] ? "/uploads/$chunk[1]" : '',
+        col3 => $chunk[2] ? "/uploads/$chunk[2]" : '',
+    };
+}
+my $vars = {
     images       => \@images,
     render_table => $render_table,
+    rows         => \@rows,
 };
 
 print $q->header('text/html');
