@@ -1,1 +1,3 @@
 req.txt
+uploads/*
+!uploads/.gitkeep

@@ -16,7 +16,7 @@ if ( my $fh = $q->upload('file') ) {
     close $out;
 }
 
-my @files        = read_dir('uploads');
+my @files        = grep { $_ ne '.gitkeep' } read_dir('uploads');
 my $count        = scalar @files;
 my $render_table = $count >= 3 ? 1 : 0;
 my @images       = map { { url => "/uploads/$_" } } @files;
