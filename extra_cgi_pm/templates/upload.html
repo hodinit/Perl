@@ -1,0 +1,58 @@
+<html>
+
+<head>
+    <title>Upload</title>
+    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.min.css" rel="stylesheet">
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
+</head>
+
+<body>
+    <form action="/cgi-bin/02_upload.pl" class="dropzone" id="my-dropzone"></form>
+
+    <script>
+        Dropzone.options.myDropzone = {
+            acceptedFiles: "image/*",
+            maxFilesize: 5,
+            init: function () {
+                this.on("complete", function () {
+                    location.reload();
+                });
+            }
+        };
+    </script>
+
+    [% IF render_table %]
+    <table id="myTable">
+        <thead>
+            <tr>
+                <th>Col 1</th>
+                <th>Col 2</th>
+                <th>Col 3</th>
+            </tr>
+        </thead>
+        <tbody>
+            [% FOREACH row IN rows %]
+            <tr>
+                <td>[% IF row.col1 %]<img src="[% row.col1 %]" width="200">[% END %]</td>
+                <td>[% IF row.col2 %]<img src="[% row.col2 %]" width="200">[% END %]</td>
+                <td>[% IF row.col3 %]<img src="[% row.col3 %]" width="200">[% END %]</td>
+            </tr>
+            [% END %]
+        </tbody>
+    </table>
+
+    <script>
+        new DataTable('#myTable');
+    </script>
+    [% ELSE %]
+    [% FOREACH img IN images %]
+    <img src="[% img.url %]" style="max-width: 200px; margin: 10px;" />
+    [% END %]
+    [% END %]
+
+</body>
+
+</html>
