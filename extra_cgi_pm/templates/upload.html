@@ -10,8 +10,17 @@
 </head>
 
 <body>
-    <form action="/cgi-bin/02_upload.pl" class="dropzone"></form>
+    <form action="/cgi-bin/02_upload.pl" class="dropzone" id="my-dropzone"></form>
 
+    <script>
+        Dropzone.options.myDropzone = {
+            init: function () {
+                this.on("complete", function () {
+                    location.reload();
+                });
+            }
+        };
+    </script>
 
     [% IF render_table %]
     <table id="myTable">
