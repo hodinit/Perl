@@ -18,16 +18,26 @@ if ( my $fh = $q->upload('file') ) {
 
 my @files        = grep { $_ ne '.gitkeep' } read_dir('uploads');
 my $count        = scalar @files;
-my $render_table = $count >= 3 ? 1 : 0;
-my @images       = map { { url => "/uploads/$_" } } @files;
+my $render_table = $count >= 2 ? 1 : 0;
+my @images;
+my $index = 1;
+my $row   = {};
 my @rows;
-while ( my @chunk = splice( @files, 0, 3 ) ) {
-    push @rows, {
-        col1 => $chunk[0] ? "/uploads/$chunk[0]" : '',
-        col2 => $chunk[1] ? "/uploads/$chunk[1]" : '',
-        col3 => $chunk[2] ? "/uploads/$chunk[2]" : '',
-    };
+
+foreach my $file (@files) {
+    my $url = "/uploads/$file";
+    push @images, { url => $url };
+    if ( $index == 1 ) {
+        $row = {};
+        push @rows, $row;
+    }
+    $row->{"col$index"} = $url;
+    $index++;
+    if ( $index > 3 ) {
+        $index = 1;
+    }
 }
+
 my $vars = {
     images       => \@images,
     render_table => $render_table,
