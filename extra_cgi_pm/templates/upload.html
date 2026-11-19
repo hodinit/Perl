@@ -12,18 +12,6 @@
 <body>
     <form action="/cgi-bin/02_upload.pl" class="dropzone" id="my-dropzone"></form>
 
-    <script>
-        Dropzone.options.myDropzone = {
-            acceptedFiles: "image/*",
-            maxFilesize: 5,
-            init: function () {
-                this.on("complete", function () {
-                    location.reload();
-                });
-            }
-        };
-    </script>
-
     [% IF render_table %]
     <table id="myTable">
         <thead>
@@ -44,14 +32,12 @@
         </tbody>
     </table>
 
-    <script>
-        new DataTable('#myTable');
-    </script>
     [% ELSE %]
     [% FOREACH img IN images %]
     <img src="[% img.url %]" style="max-width: 200px; margin: 10px;" />
     [% END %]
     [% END %]
+    <script src="/templates/script.js"></script>
 
 </body>
 
