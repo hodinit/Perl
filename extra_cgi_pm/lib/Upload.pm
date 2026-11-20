@@ -5,14 +5,17 @@ use warnings;
 use autodie;
 use Exporter::NoWork;
 use Template::Tiny;
-use File::Slurp qw/read_file read_dir/;
+use File::Slurp qw/read_file/;
+
+my $upload_dir = '/var/www/uploads';    # Check if your container uses /var/www/html/uploads
+my $upload_url = '/uploads';
 
 sub upload_files {
     my $q = shift;
     if ( my $fh = $q->upload('file') ) {
         my $filename = $q->param('file');
         $filename =~ s/.*[\/\\]//;
-        open my $out, '>', "uploads/$filename";
+        open my $out, '>', "$upload_dir/$filename";
         binmode $out;
         print {$out} <$fh>;
         close $out;
@@ -20,16 +23,19 @@ sub upload_files {
 }
 
 sub process_images {
-    my @files        = grep { $_ ne '.gitkeep' } read_dir('uploads');
-    my $count        = scalar @files;
+    opendir( my $dh, $upload_dir );
+    my @file_names = map { "$upload_url/$_" }
+      grep { !/^\./ && -f "$upload_dir/$_" } readdir($dh);
+    closedir $dh;
+
+    my $count        = scalar @file_names;
     my $render_table = $count >= 2 ? 1 : 0;
     my @images;
     my $index = 1;
-    my $row   = {};
+    my $row;
     my @rows;
 
-    foreach my $file (@files) {
-        my $url = "/uploads/$file";
+    foreach my $url (@file_names) {
         push @images, { url => $url };
         if ( $index == 1 ) {
             $row = {};
