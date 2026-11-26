@@ -49,6 +49,14 @@ my @media = (
         $media_type_id_for{'audio'},
         $license_id_for{'Public Domain'},
     ],
+    [
+        'test',
+        'test',
+        'test',
+        'test',
+        $media_type_id_for{'audio'},
+        $license_id_for{'Attribution CC BY'},
+    ]
 );
 
 my $sql_media = <<"SQL";
